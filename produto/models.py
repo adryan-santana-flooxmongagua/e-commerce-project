@@ -54,7 +54,20 @@ class Produto(models.Model):
         img_pil = Image.open(img_full_path)
         original_width, original_heigth = img_pil.size
 
-        print(original_width,original_heigth)
+        if original_width <= new_width:
+            print('retornando, larguraa original menor que a nova largura')
+            img_pil.close()
+            return
+        
+        new_height = round((new_width * original_heigth) / original_width)
+
+        new_img = img_pil.resize((new_width, new_height), Image.LANCZOS)
+        new_img.save(
+            img_full_path,
+            optimize=True,
+            quality=50
+        )
+    print('Imagem foi redimensionada.')
 
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
