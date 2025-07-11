@@ -1,6 +1,8 @@
 from django.db import models
+from PIL import Image
+import os 
+from django.conf import settings
 
-# Create your models here.
 
 """
  Produto:
@@ -45,9 +47,14 @@ class Produto(models.Model):
         )
     )
 
+
     @staticmethod
     def resize_image(img, new_width=800):
-        print(img.name)
+        img_full_path= os.path.join(setting.MEDIA_ROOT, img.name)
+        img_pil = Image.open(img_full_path)
+        original_width, original_heigth = img_pil.size
+
+        print(original_width,original_heigth)
 
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
